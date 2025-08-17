@@ -3,6 +3,32 @@
 #include <string.h>
 #include "cdataframe.h"
 
+double entry_to_double(DataEntry entry){
+	switch(entry.type){
+		case TYPE_INT:
+			return (double)entry.value.i;
+			break;
+		case TYPE_UINT:
+			return (double)entry.value.ui;
+			break;
+		case TYPE_LONG:
+			return (double)entry.value.l;
+			break;
+		case TYPE_ULONG:
+			return (double)entry.value.ul;
+			break;
+		case TYPE_FLOAT:
+			return (double)entry.value.f;
+			break;
+		case TYPE_DOUBLE:
+			return entry.value.d;
+			break;
+		DEFAULT:
+			fprintf(stderr, "Non-numeric type in entry to double\n");
+			exit(EXIT_FAILURE);
+	}
+}
+
 DataFrame *createDataFrame(size_t num_cols){
 	DataFrame *df = malloc(sizeof(DataFrame));
 	if(!df){

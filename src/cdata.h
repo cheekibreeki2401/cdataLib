@@ -1,3 +1,4 @@
+#include "cdataframe.h"
 #ifndef CDATA_H
 
 #define CDATA_H
@@ -8,20 +9,22 @@
 #define DLL_EXPORT
 #endif
 
-double getMeanDouble(double results[]);
-double getMeanDoubleRoundedToSigFig(double results[], int sigFigs);
+double getMeanDouble(double results[], size_t resultsSize);
+double getMeanDoubleRoundedToSigFig(double results[], size_t resultsSize, int sigFigs);
 
-float getMeanFloat(float results[]);
-float getMeanFloatRoundedToSigFig(float results[], int sigFigs);
+float getMeanFloat(float results[], size_t resultsSize);
+float getMeanFloatRoundedToSigFig(float results[], size_t resultsSize, int sigFigs);
 
-int getMean(int results[]);
+int getMean(int results[], size_t resultsSize);
 
-int *getMode(int results[]);
-float *getModeFloat(float results[]);
-double *getModeDouble(double results[]);
+int *getMode(int results[], size_t resultsSize);
+float *getModeFloat(float results[], size_t resultsSize);
+double *getModeDouble(double results[], size_t resultsSize);
 
-int getMedian(int results[], int getLeftValue);
-float getMedianFloat(float results[], int getLeftValue);
-double getMedianDouble(double results[], int getLeftValue);
+int getMedian(int results[], size_t resultsSize, int getLeftValue);
+float getMedianFloat(float results[],size_t resultsSize, int getLeftValue);
+double getMedianDouble(double results[], size_t resultsSize, int getLeftValue);
+
+double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y);
 
 #endif

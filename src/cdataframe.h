@@ -44,6 +44,7 @@ typedef struct DataFrame{
 	DataColumn *columns;
 }DataFrame;
 
+double entry_to_double(DataEntry entry);
 DataFrame *createDataFrame(size_t num_cols);
 void freeDataFrame(DataFrame *df);
 void setColumn(DataFrame *df, size_t col_index, const char *name, DataType type);
