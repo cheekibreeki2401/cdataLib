@@ -3,6 +3,7 @@
 - Mean, median and mode support for results of ints, doubles and floats.
 - A new data structure (A simple data frame) to be used for future implementations
 - A function to get the Pearson correlation value between two columns.
+- A function to process the k-means of the data-frame's numeric columns.
 
 ## How to use functions:
 cdata library:
@@ -11,6 +12,7 @@ cdata library:
 - getMode, getModeFloat, and getModeDouble takes in an argument of an array of the correct type and an argument for the size of the array (use getMode for integers).
 - getMedian, getMedianFloat and getMedianDouble take in three arguments, one of an array of the correct type, one of the array size and a boolean of in the case of the median lying between two values, whether or not to return the value to the left or the value to the right of the "middle".
 - getPearsonCorrelation takes in three arguments, one of a dataframe, and two size arguments to use the indecies of the columns being compared to each other. Returns a double.
+- kmeans takes in three arguments, a one of a dataframe and two size arguments. One is k (number of data points) and the other is the max number of iterations.
 
 cdataframe library:
 - createDataFrame is used to create a dataframe pointer. Takes one argument of number of columns.

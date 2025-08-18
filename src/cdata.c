@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <float.h>
+#include <time.h>
 #include "cdata.h"
 
 double getMeanDouble(double results[], size_t resultsSize){
@@ -275,4 +277,86 @@ double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y){
 		return 0.0;
 	}
 	return numerator/(sqrt(denom_x)*sqrt(denom_y));
+}
+
+double euclidianDistance(double *a, double *b, size_t n){
+	double sum = 0.0;
+	for(size_t i = 0; i < n; i++){
+		double d = a[i] - b[i];
+		sum+= d*d;
+	}
+	return sqrt(sum);
+}
+
+int *kmeans(DataFrame *df, size_t k, size_t max_iters){
+	size_t num_features;
+	double **data = extractNumericMatrix(df, &num_features);
+	size_t n = df->num_rows;
+	if(n == 0 || num_features == 0 || k == 0){
+		return NULL;
+	}
+	int *labels = calloc(n, sizeof(int));
+	double **centroids = malloc(k*sizeof(double*));
+	for(size_t i=0; i<k;i++){
+		centroids[i] = malloc(num_features * sizeof(double));
+	}
+	srand((unsigned)time(NULL));
+	for(size_t i = 0; i < k; i++){
+		int r = rand() % n;
+		for(size_t j = 0; j < num_features; j++){
+			centroids[i][j] = data[r][j];
+		}
+	}
+	for(size_t i = 0; i < max_iters; i++){
+		int changed = 0;
+		for(size_t j = 0; j < n; j++){
+			double bestDist = DBL_MAX;
+			int bestCluster = 0;
+			for(size_t c = 0; c < k; c++){
+				double dist = euclidianDistance(data[j], centroids[c], num_features);
+				if(dist<bestDist){
+					bestDist = dist;
+					bestCluster = c;
+				}
+			}
+			if(labels[j] != bestCluster){
+				labels[j] = bestCluster;
+				changed = 1;
+			}
+		}
+		if(!changed){
+			break;
+		}
+		double **new_centroids = calloc(k, sizeof(double*));
+		size_t *counts = calloc(k, sizeof(size_t));
+		for(size_t c = 0; c < k; c++){
+			new_centroids[c] = calloc(num_features, sizeof(double));
+		}
+		for(size_t j = 0; j < n; j++){
+			int cluster = labels[j];
+			for(size_t l = 0; l < num_features; l++){
+				new_centroids[cluster][l] += data[j][l];
+			}
+			counts[cluster]++;
+		}
+		for(size_t c = 0; c < k; c++){
+			if(counts[c] > 0){
+				for(size_t j = 0; j < num_features; j++){
+					centroids[c][j] = new_centroids[c][j]/counts[c];
+				}
+			}
+			free(new_centroids[c]);
+		}
+		free(new_centroids);
+		free(counts);
+	}
+	for(size_t i = 0; i < n; i++){
+		free(data[i]);
+	}
+	free(data);
+	for(size_t i = 0; i < k; i++){
+		free(centroids[i]);
+	}
+	free(centroids);
+	return labels;
 }

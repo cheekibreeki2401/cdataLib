@@ -27,4 +27,6 @@ double getMedianDouble(double results[], size_t resultsSize, int getLeftValue);
 
 double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y);
 
+int *kmeans(DataFrame *df, size_t k, size_t max_iters);
+
 #endif

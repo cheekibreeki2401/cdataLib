@@ -44,6 +44,7 @@ typedef struct DataFrame{
 	DataColumn *columns;
 }DataFrame;
 
+double **extractNumericMatrix(DataFrame *df, size_t *num_features);
 double entry_to_double(DataEntry entry);
 DataFrame *createDataFrame(size_t num_cols);
 void freeDataFrame(DataFrame *df);

@@ -3,6 +3,31 @@
 #include <string.h>
 #include "cdataframe.h"
 
+double **extractNumericMatrix(DataFrame *df, size_t *num_features){
+	size_t cols = 0;
+	for(size_t i = 0; i < df->num_cols; i++){
+		if(df->columns[i].type != TYPE_STRING && df->columns[i].type != TYPE_CHAR){
+			cols++;
+		}
+	}
+	*num_features = cols;
+	size_t rows = df->num_rows;
+	double **matrix = malloc(rows * sizeof(double*));
+	for(size_t i = 0; i < rows; i++){
+		matrix[i] = malloc(cols*sizeof(double));
+	}
+	for(size_t i = 0, j = 0; i < df->num_cols; i++){
+		if(df->columns[i].type == TYPE_STRING || df->columns[i].type == TYPE_CHAR){
+			continue;
+		}
+		for(size_t k = 0; k < rows; k++){
+			matrix[k][j] = entry_to_double(df->columns[i].data[k]);
+		}
+		j++;
+	}
+	return matrix;
+}
+
 double entry_to_double(DataEntry entry){
 	switch(entry.type){
 		case TYPE_INT:
