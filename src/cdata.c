@@ -360,3 +360,66 @@ int *kmeans(DataFrame *df, size_t k, size_t max_iters){
 	free(centroids);
 	return labels;
 }
+
+linearRegressionResult LinearRegression(DataFrame *df, size_t col_x, size_t col_y){
+	linearRegressionResult res = {0};
+	if(!df || col_x >= df->num_cols || col_y >= df->num_cols){
+		return res;
+	}
+	DataColumn *cx=&df->columns[col_x];
+	DataColumn *cy=&df->columns[col_y];
+	if(cx->type == TYPE_STRING || cx->type == TYPE_CHAR || cy->type == TYPE_STRING || cy->type == TYPE_CHAR){
+		fprintf(stderr, "Regression only works on numeric columns\n");
+		return res;
+	}
+	size_t n = df->num_rows;
+	if(n<2){
+		fprintf(stderr, "Not enough data points for regression\n");
+		return res;
+	}
+	double *x = malloc(n*sizeof(double));
+	double *y = malloc(n*sizeof(double));
+	if(!x||!y){
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
+	for(size_t i = 0; i < n; i++){
+		x[i] = entry_to_double(cx->data[i]);
+		y[i] = entry_to_double(cy->data[i]);
+	}
+	double meanX = getMeanDouble(x,n);
+	double meanY = getMeanDouble(y,n);
+	double num = 0.0;
+	double den= 0.0;
+	for(size_t i = 0; i<n; i++){
+		double dx = x[i]-meanX;
+		num+=dx*(y[i]-meanY);
+		den+=dx*dx;
+	}
+	if(den == 0.0){
+		fprintf(stderr, "Cannot compute regression, all \"x\" values are the same\n");
+		free(x);
+		free(y);
+		return res;
+	}
+	res.slope=num/den;
+	res.intercept=meanY-res.slope*meanX;
+	double ssTot = 0.0;
+	double ssRes = 0.0;
+	for(size_t i = 0; i<n; i++){
+		double yPred = res.intercept+res.slope*x[i];
+		double dy = y[i]-meanY;
+		double dyPred = y[i]-yPred;
+		ssTot+=dy*dy;
+		ssRes+=dyPred*dyPred;
+	}
+	if(ssTot==0.0){
+		res.r2 = 1.0;
+	} else {
+		res.r2 = 1.0-(ssRes/ssTot);
+	}
+	res.r = sqrt(res.r2);
+	free(x);
+	free(y);
+	return res;
+}

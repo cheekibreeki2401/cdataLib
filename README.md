@@ -4,6 +4,7 @@
 - A new data structure (A simple data frame) to be used for future implementations
 - A function to get the Pearson correlation value between two columns.
 - A function to process the k-means of the data-frame's numeric columns.
+- A function to calculate linear regression (Comes with a new data type linearRegressionResult)
 
 ## How to use functions:
 cdata library:
@@ -12,7 +13,8 @@ cdata library:
 - getMode, getModeFloat, and getModeDouble takes in an argument of an array of the correct type and an argument for the size of the array (use getMode for integers).
 - getMedian, getMedianFloat and getMedianDouble take in three arguments, one of an array of the correct type, one of the array size and a boolean of in the case of the median lying between two values, whether or not to return the value to the left or the value to the right of the "middle".
 - getPearsonCorrelation takes in three arguments, one of a dataframe, and two size arguments to use the indecies of the columns being compared to each other. Returns a double.
-- kmeans takes in three arguments, a one of a dataframe and two size arguments. One is k (number of data points) and the other is the max number of iterations.
+- kmeans takes in three arguments, one of a dataframe and two size arguments. One is k (number of data points) and the other is the max number of iterations.
+- LinearRegression takes in three arguments, one dataframe and two indexes of columns to get the regression. Returns a linearRegressionResult struct type, which has the members slope, intercept, r and r2.
 
 cdataframe library:
 - createDataFrame is used to create a dataframe pointer. Takes one argument of number of columns.

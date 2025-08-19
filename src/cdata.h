@@ -9,6 +9,13 @@
 #define DLL_EXPORT
 #endif
 
+typedef struct linearRegressionResult{
+	double slope;
+	double intercept;
+	double r;
+	double r2;
+}linearRegressionResult;
+
 double getMeanDouble(double results[], size_t resultsSize);
 double getMeanDoubleRoundedToSigFig(double results[], size_t resultsSize, int sigFigs);
 
