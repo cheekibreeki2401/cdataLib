@@ -2,6 +2,8 @@
 ## Features added so far:
 - Mean, median and mode support for results of ints, doubles and floats.
 - A new data structure (A simple data frame) to be used for future implementations
+- A series of functions to get the standard deviation of a given numeric dataset.
+- A series of functions to get the 1st and 3rd Quartiles of a given numeric dataset.
 - A function to get the Pearson correlation value between two columns.
 - A function to process the k-means of the data-frame's numeric columns.
 - A function to calculate linear regression (Comes with a new data type linearRegressionResult)
@@ -11,7 +13,9 @@ cdata library:
 - getMean, getMeanFloat and getMeanDouble are used the way you would use any other function, with two parameters, the first being an array (or pointer) of the correct type, the other is the size of that array (use getMean for integers).
 - getMeanFloatRoundedToSigFig and getMeanDoubleRoundedToSigFig is the same as the regular mean functions with one additional parameter of how many significant figures do you want it rounded to.
 - getMode, getModeFloat, and getModeDouble takes in an argument of an array of the correct type and an argument for the size of the array (use getMode for integers).
-- getMedian, getMedianFloat and getMedianDouble take in three arguments, one of an array of the correct type, one of the array size and a boolean of in the case of the median lying between two values, whether or not to return the value to the left or the value to the right of the "middle".
+- getMedian, getMedianFloat and getMedianDouble takes in three arguments, one of an array of the correct type, one of the array size and a boolean of in the case of the median lying between two values, whether or not to return the value to the left or the value to the right of the "middle".
+- getStandardDeviation, getStandardDeviationF and getStandardDeviationD takes in two arguments, one of an array of the correct type, one of the array size. Returns a singular value of the type being used.
+- getInterQuartile, getInterQuartileF and getInterQuartileD takes in two arguments, one of an array of the correct type, one of the array size. Returns a pointer to two values that represents the first and third quartiles.
 - getPearsonCorrelation takes in three arguments, one of a dataframe, and two size arguments to use the indecies of the columns being compared to each other. Returns a double.
 - kmeans takes in three arguments, one of a dataframe and two size arguments. One is k (number of data points) and the other is the max number of iterations.
 - LinearRegression takes in three arguments, one dataframe and two indexes of columns to get the regression. Returns a linearRegressionResult struct type, which has the members slope, intercept, r and r2.

@@ -226,6 +226,108 @@ double getMedianDouble(double results[],size_t resultsSize, int getLeftValue){
 	}
 }
 
+int getStandardDeviation(int results[], size_t size){
+	int *deviations = calloc(size, sizeof(int));
+	int mean = getMean(results, size);
+	for(size_t i = 0; i<size; i++){
+		deviations[i] = (mean-results[i])*(mean-results[i]);
+	}
+	return sqrt(getMean(deviations, size));
+}
+
+float getStandardDeviationF(float results[], size_t size){
+	float *deviations = calloc(size, sizeof(float));
+	float mean = getMeanFloat(results, size);
+	for(size_t i = 0; i < size; i++){
+		deviations[i] = (mean-results[i])*(mean-results[i]);
+	}
+	return sqrt(getMeanFloat(deviations, size));
+}
+
+double getStandardDeviationD(double results[], size_t size){
+	double *deviations = calloc(size, sizeof(double));
+	double mean = getMeanDouble(results, size);
+	for(size_t i = 0; i < size; i++){
+		deviations[i] = (mean-results[i])*(mean-results[i]);
+	}
+	return sqrt(getMeanDouble(deviations, size));
+}
+
+int *getInterQuartiles(int results[], size_t size){
+	int *quartiles = calloc(2, sizeof(int));
+	int *lowerHalf = malloc(size*sizeof(int));
+	int *upperHalf = malloc(size*sizeof(int));
+	int lowerOffset = 0;
+	int upperOffset = 0;
+	int median = getMedian(results, size, 1);
+	for(size_t i = 0; i<size; i++){
+		if(results[i] <= median){
+			lowerHalf[lowerOffset] = results[i];
+			lowerOffset++;
+		} else {
+			upperHalf[upperOffset] = results[i];
+			upperOffset++;
+		}
+	}
+	int quartile1 = getMedian(lowerHalf, lowerOffset+1, 1);
+	int quartile3 = getMedian(upperHalf, upperOffset+1, 1);
+	free(lowerHalf);
+	free(upperHalf);
+	quartiles[0] = quartile1;
+	quartiles[1] = quartile3;
+	return quartiles;
+}
+
+float *getInterQuartilesF(float results[], size_t size){
+	float *quartiles = calloc(2, sizeof(float));
+	float *lowerHalf = malloc(size*sizeof(float));
+	float *upperHalf = malloc(size*sizeof(float));
+	int lowerOffset = 0;
+	int upperOffset = 0;
+	float median = getMedianFloat(results, size, 1);
+	for(size_t i = 0; i<size; i++){
+		if(results[i] <= median){
+			lowerHalf[lowerOffset] = results[i];
+			lowerOffset++;
+		} else {
+			upperHalf[upperOffset] = results[i];
+			upperOffset++;
+		}
+	}
+	float quartile1 = getMedianFloat(lowerHalf, lowerOffset+1, 1);
+	float quartile3 = getMedianFloat(upperHalf, upperOffset+1, 1);
+	free(lowerHalf);
+	free(upperHalf);
+	quartiles[0] = quartile1;
+	quartiles[1] = quartile3;
+	return quartiles;
+}
+
+double *getInterQuartilesD(double results[], size_t size){
+	double *quartiles = calloc(2, sizeof(double));
+	double *lowerHalf = malloc(size*sizeof(double));
+	double *upperHalf = malloc(size*sizeof(double));
+	int lowerOffset = 0;
+	int upperOffset = 0;
+	double median = getMedianDouble(results, size, 1);
+	for(size_t i = 0; i<size; i++){
+		if(results[i]<=median){
+			lowerHalf[lowerOffset] = results[i];
+			lowerOffset++;
+		} else {
+			upperHalf[upperOffset] = results[i];
+			upperOffset++;
+		}
+	}
+	double quartile1 = getMedianDouble(lowerHalf, lowerOffset+1, 1);
+	double quartile3 = getMedianDouble(upperHalf, upperOffset+1, 1);
+	free(lowerHalf);
+	free(upperHalf);
+	quartiles[0] = quartile1;
+	quartiles[1] = quartile3;
+	return quartiles;
+}
+
 //The following functions can only be used with the correct data frames.
 
 double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y){
