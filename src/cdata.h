@@ -28,6 +28,10 @@ int *getMode(int results[], size_t resultsSize);
 float *getModeFloat(float results[], size_t resultsSize);
 double *getModeDouble(double results[], size_t resultsSize);
 
+int getMedian(int results[], size_t resultsSize, int getLeftValue);
+float getMedianFloat(float results[],size_t resultsSize, int getLeftValue);
+double getMedianDouble(double results[], size_t resultsSize, int getLeftValue);
+
 int getStandardDeviation(int results[], size_t size);
 float getStandardDeviationF(float results[], size_t size);
 double getStandardDeviationD(double results[], size_t size);
@@ -36,9 +40,13 @@ int *getInterQuartiles(int results[], size_t size);
 float *getInterQuartilesF(float results[], size_t size);
 double *getInterQuartilesD(double results[], size_t size);
 
-int getMedian(int results[], size_t resultsSize, int getLeftValue);
-float getMedianFloat(float results[],size_t resultsSize, int getLeftValue);
-double getMedianDouble(double results[], size_t resultsSize, int getLeftValue);
+int *removeOutliersQ(int results[], size_t size);
+float *removeOutliersQF(float results[], size_t size);
+double *removeOutliersQD(double results[], size_t size);
+
+int *removeOutliersSD(int results[], size_t size, int k);
+float *removeOutliersSDF(float results[], size_t size, int k);
+double *removeOutliersSDD(double results[], size_t size, int k);
 
 double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y);
 

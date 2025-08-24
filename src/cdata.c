@@ -328,6 +328,117 @@ double *getInterQuartilesD(double results[], size_t size){
 	return quartiles;
 }
 
+int *removeOutliersQ(int results[], size_t size){
+	int *quartiles = getInterQuartiles(results, size);
+	int quartileRange = quartiles[1] - quartiles[0];
+	int lowerBound = (int)quartiles[0]-1.5*quartileRange;
+	int upperBound = (int)quartiles[0]+1.5*quartileRange;
+	int *newResults = malloc(size*sizeof(int));
+	int index = 0;
+	for(size_t i = 0; i<size; i++){
+		if(results[i] >= lowerBound && results[i] <= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	int *finalResults = realloc(newResults, (index+1)*sizeof(int));
+	free(newResults);
+	free(quartiles);
+	return finalResults;
+}
+
+float *removeOutliersQF(float results[], size_t size){
+	float *quartiles = getInterQuartilesF(results, size);
+	float quartileRange = quartiles[1] - quartiles[0];
+	float lowerBound = quartiles[0]-1.5*quartileRange;
+	float upperBound = quartiles[1]+.5*quartileRange;
+	float *newResults = malloc(size*sizeof(float));
+	int index = 0;
+	for(size_t i=0; i<size; i++){
+		if(results[i] >= lowerBound && results[i]<= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	float *finalResults = realloc(newResults, (index+1)*sizeof(float));
+	free(newResults);
+	free(quartiles);
+	return finalResults;
+}
+
+double *removeOutliersQD(double results[], size_t size){
+	double *quartiles = getInterQuartilesD(results, size);
+	double quartileRange = quartiles[1] - quartiles[0];
+	double lowerBound = quartiles[0]-1.5*quartileRange;
+	double upperBound = quartiles[1]+1.5*quartileRange;
+	double *newResults = malloc(size*sizeof(double));
+	int index = 0;
+	for(size_t i=0; i<size; i++){
+		if(results[i] >= lowerBound && results[i] <= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	double *finalResults = realloc(newResults, (index+1)*sizeof(double));
+	free(newResults);
+	free(quartiles);
+	return finalResults;
+}
+
+int *removeOutliersSD(int results[], size_t size, int k){ //K is the number of standard deviations from the mean.
+	int mean = getMean(results, size);
+	int sd = getStandardDeviation(results, size);
+	int lowerBound = mean-k*sd;
+	int upperBound = mean+k*sd;
+	int *newResults = malloc(size*sizeof(int));
+	int index = 0;
+	for(size_t i=0; i<size; i++){
+		if(results[i] >= lowerBound && results[i] <= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	int *finalResults = realloc(newResults, (index+1)*sizeof(int));
+	free(newResults);
+	return finalResults;
+}
+
+float *removeOutliersSDF(float results[], size_t size, int k){
+	float mean = getMeanFloat(results, size);
+	float sd = getStandardDeviationF(results, size);
+	float lowerBound = mean-k*sd;
+	float upperBound = mean+k*sd;
+	float *newResults = malloc(size*sizeof(float));
+	int index = 0;
+	for(size_t i=0; i<size; i++){
+		if(results[i] >= lowerBound && results[i] <= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	float *finalResults = realloc(newResults, (index+1)*sizeof(float));
+	free(newResults);
+	return finalResults;
+}
+
+double *removeOutliersSDD(double results[], size_t size, int k){
+	double mean = getMeanDouble(results, size);
+	double sd = getStandardDeviationD(results, size);
+	double lowerBound = mean-k*sd;
+	double upperBound = mean+k*sd;
+	double *newResults = malloc(size*sizeof(double));
+	int index = 0;
+	for(size_t i=0; i<size; i++){
+		if(results[i] >= lowerBound && results[i] <= upperBound){
+			newResults[index] = results[i];
+			index++;
+		}
+	}
+	double *finalResults = realloc(newResults, (index+1)*sizeof(double));
+	free(newResults);
+	return finalResults;
+}
+
 //The following functions can only be used with the correct data frames.
 
 double getPearsonCorrelation(DataFrame *df, size_t col_x, size_t col_y){
