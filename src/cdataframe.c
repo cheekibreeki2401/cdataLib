@@ -48,9 +48,10 @@ double entry_to_double(DataEntry entry){
 		case TYPE_DOUBLE:
 			return entry.value.d;
 			break;
-		DEFAULT:
+		default:
 			fprintf(stderr, "Non-numeric type in entry to double\n");
 			exit(EXIT_FAILURE);
+			break;
 	}
 }
 

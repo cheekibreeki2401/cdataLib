@@ -94,7 +94,7 @@ int *getMode(int results[], size_t resultsSize){
 
 float getMaxFloat(float list[], size_t listSize){
 	float max = list[0];
-	for(int i = 0; i < listSize; i++){
+	for(size_t i = 0; i < listSize; i++){
 		if(list[i] > max){
 			max = list[i];
 		}
