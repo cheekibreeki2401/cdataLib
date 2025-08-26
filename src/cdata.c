@@ -1,3 +1,4 @@
+#define _CTR_STDIO_INLINE
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
