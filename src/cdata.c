@@ -7,6 +7,10 @@
 #include "cdata.h"
 
 double getMeanDouble(double results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	double resultsTotal = 0.0;
 	for(size_t i = 0; i < resultsSize; i++){
 		resultsTotal += results[i];
@@ -16,6 +20,10 @@ double getMeanDouble(double results[], size_t resultsSize){
 
 double getMeanDoubleRoundedToSigFig(double results[], size_t resultsSize, int sigFigs){
 	double rawMean = getMeanDouble(results, resultsSize);
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	if(rawMean == 0.0){
 		return 0.0;
 	}
@@ -24,6 +32,10 @@ double getMeanDoubleRoundedToSigFig(double results[], size_t resultsSize, int si
 }
 
 float getMeanFloat(float results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	float resultsTotal = 0.0;
 	for(size_t i = 0; i < resultsSize; i++){
 		resultsTotal += results[i];
@@ -32,6 +44,10 @@ float getMeanFloat(float results[], size_t resultsSize){
 }
 
 float getMeanFloatRoundedToSigFig(float results[], size_t resultsSize, int sigFigs){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	float rawMean = getMeanFloat(results, resultsSize);
 	if(rawMean == 0.0){
 		return 0.0;
@@ -41,6 +57,10 @@ float getMeanFloatRoundedToSigFig(float results[], size_t resultsSize, int sigFi
 }
 
 int getMean(int results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0;
+	}
 	int resultsTotal = 0.0;
 	for(size_t i = 0; i < resultsSize; i++){
 		resultsTotal += results[i];
@@ -63,6 +83,10 @@ int compareInt(const void *a, const void *b){
 }
 
 int *getMode(int results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	qsort(results, resultsSize, sizeof(int), compareInt);
 	int possibleModes[resultsSize];
 	int mode_ctr[resultsSize] = {};
@@ -116,6 +140,10 @@ int compareFloat(const void *a, const void *b){
 }
 
 float *getModeFloat(float results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	qsort(results, resultsSize, sizeof(float), compareFloat);
 	float possibleModes[resultsSize];
 	int mode_ctr[resultsSize] = {};
@@ -159,6 +187,10 @@ int compareDouble(const void *a, const void *b){
 }
 
 double *getModeDouble(double results[], size_t resultsSize){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	qsort(results, resultsSize, sizeof(double), compareDouble);
 	double possibleModes[resultsSize];
 	int mode_ctr[resultsSize] = {};
@@ -189,6 +221,10 @@ double *getModeDouble(double results[], size_t resultsSize){
 }
 
 int getMedian(int results[], size_t resultsSize, int getLeftValue){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0;
+	}
 	qsort(results, resultsSize, sizeof(int), compareInt);
 	if(!(resultsSize-1)%2){
 		return results[(resultsSize-1)/2];
@@ -202,6 +238,10 @@ int getMedian(int results[], size_t resultsSize, int getLeftValue){
 }
 
 float getMedianFloat(float results[], size_t resultsSize, int getLeftValue){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	qsort(results, resultsSize, sizeof(float), compareFloat);
 	if(!(resultsSize-1)%2){
 		return results[(resultsSize-1)/2];
@@ -215,6 +255,10 @@ float getMedianFloat(float results[], size_t resultsSize, int getLeftValue){
 }
 
 double getMedianDouble(double results[],size_t resultsSize, int getLeftValue){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	qsort(results, resultsSize, sizeof(double), compareDouble);
 	if(!(resultsSize-1)%2){
 		return results[(resultsSize-1)/2];
@@ -228,7 +272,15 @@ double getMedianDouble(double results[],size_t resultsSize, int getLeftValue){
 }
 
 int getStandardDeviation(int results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0;
+	}
 	int *deviations = calloc(size, sizeof(int));
+	if(!deviations){
+		fprintf(stderr, "Failed to allocate memory for deviations\n");
+		return 0;
+	}
 	int mean = getMean(results, size);
 	for(size_t i = 0; i<size; i++){
 		deviations[i] = (mean-results[i])*(mean-results[i]);
@@ -237,7 +289,15 @@ int getStandardDeviation(int results[], size_t size){
 }
 
 float getStandardDeviationF(float results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	float *deviations = calloc(size, sizeof(float));
+	if(!deviations){
+		fprintf(stderr, "Failed to allocate memory for deviations\n");
+		return 0.0;
+	}
 	float mean = getMeanFloat(results, size);
 	for(size_t i = 0; i < size; i++){
 		deviations[i] = (mean-results[i])*(mean-results[i]);
@@ -246,7 +306,15 @@ float getStandardDeviationF(float results[], size_t size){
 }
 
 double getStandardDeviationD(double results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return 0.0;
+	}
 	double *deviations = calloc(size, sizeof(double));
+	if(!deviations){
+		fprintf(stderr, "Failed to allocate memory for deviations\n");
+		return 0.0;
+	}
 	double mean = getMeanDouble(results, size);
 	for(size_t i = 0; i < size; i++){
 		deviations[i] = (mean-results[i])*(mean-results[i]);
@@ -255,9 +323,17 @@ double getStandardDeviationD(double results[], size_t size){
 }
 
 int *getInterQuartiles(int results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	int *quartiles = calloc(2, sizeof(int));
 	int *lowerHalf = malloc(size*sizeof(int));
 	int *upperHalf = malloc(size*sizeof(int));
+	if(!quartiles || !lowerHalf || !upperHalf){
+		fprintf(stderr, "Failed to allocate memory for quartiles\n");
+		return NULL;
+	}
 	int lowerOffset = 0;
 	int upperOffset = 0;
 	int median = getMedian(results, size, 1);
@@ -280,9 +356,17 @@ int *getInterQuartiles(int results[], size_t size){
 }
 
 float *getInterQuartilesF(float results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	float *quartiles = calloc(2, sizeof(float));
 	float *lowerHalf = malloc(size*sizeof(float));
 	float *upperHalf = malloc(size*sizeof(float));
+	if(!quartiles || !lowerHalf || !upperHalf){
+		fprintf(stderr, "Failed to allocate memory for quartiles\n");
+		return NULL;
+	}
 	int lowerOffset = 0;
 	int upperOffset = 0;
 	float median = getMedianFloat(results, size, 1);
@@ -305,9 +389,17 @@ float *getInterQuartilesF(float results[], size_t size){
 }
 
 double *getInterQuartilesD(double results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	double *quartiles = calloc(2, sizeof(double));
 	double *lowerHalf = malloc(size*sizeof(double));
 	double *upperHalf = malloc(size*sizeof(double));
+	if(!quartiles || !lowerHalf || !upperHalf){
+		fprintf(stderr, "Failed to allocate memory for quartiles\n");
+		return NULL;
+	}
 	int lowerOffset = 0;
 	int upperOffset = 0;
 	double median = getMedianDouble(results, size, 1);
@@ -330,11 +422,22 @@ double *getInterQuartilesD(double results[], size_t size){
 }
 
 int *removeOutliersQ(int results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	int *quartiles = getInterQuartiles(results, size);
+	if(!quartiles){
+		return NULL;
+	}
 	int quartileRange = quartiles[1] - quartiles[0];
 	int lowerBound = (int)quartiles[0]-1.5*quartileRange;
 	int upperBound = (int)quartiles[0]+1.5*quartileRange;
 	int *newResults = malloc(size*sizeof(int));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i = 0; i<size; i++){
 		if(results[i] >= lowerBound && results[i] <= upperBound){
@@ -343,17 +446,32 @@ int *removeOutliersQ(int results[], size_t size){
 		}
 	}
 	int *finalResults = realloc(newResults, (index+1)*sizeof(int));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for finalResults\n");
+		return NULL;
+	}
 	free(newResults);
 	free(quartiles);
 	return finalResults;
 }
 
 float *removeOutliersQF(float results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	float *quartiles = getInterQuartilesF(results, size);
+	if(!quartiles){
+		return NULL;
+	}
 	float quartileRange = quartiles[1] - quartiles[0];
 	float lowerBound = quartiles[0]-1.5*quartileRange;
 	float upperBound = quartiles[1]+.5*quartileRange;
 	float *newResults = malloc(size*sizeof(float));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i=0; i<size; i++){
 		if(results[i] >= lowerBound && results[i]<= upperBound){
@@ -362,17 +480,32 @@ float *removeOutliersQF(float results[], size_t size){
 		}
 	}
 	float *finalResults = realloc(newResults, (index+1)*sizeof(float));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for finalResults\n");
+		return NULL;
+	}
 	free(newResults);
 	free(quartiles);
 	return finalResults;
 }
 
 double *removeOutliersQD(double results[], size_t size){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	double *quartiles = getInterQuartilesD(results, size);
+	if(!quartiles){
+		return NULL;
+	}
 	double quartileRange = quartiles[1] - quartiles[0];
 	double lowerBound = quartiles[0]-1.5*quartileRange;
 	double upperBound = quartiles[1]+1.5*quartileRange;
 	double *newResults = malloc(size*sizeof(double));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i=0; i<size; i++){
 		if(results[i] >= lowerBound && results[i] <= upperBound){
@@ -381,17 +514,29 @@ double *removeOutliersQD(double results[], size_t size){
 		}
 	}
 	double *finalResults = realloc(newResults, (index+1)*sizeof(double));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for finalResults\n");
+		return NULL;
+	}
 	free(newResults);
 	free(quartiles);
 	return finalResults;
 }
 
 int *removeOutliersSD(int results[], size_t size, int k){ //K is the number of standard deviations from the mean.
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	int mean = getMean(results, size);
 	int sd = getStandardDeviation(results, size);
 	int lowerBound = mean-k*sd;
 	int upperBound = mean+k*sd;
 	int *newResults = malloc(size*sizeof(int));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i=0; i<size; i++){
 		if(results[i] >= lowerBound && results[i] <= upperBound){
@@ -400,16 +545,28 @@ int *removeOutliersSD(int results[], size_t size, int k){ //K is the number of s
 		}
 	}
 	int *finalResults = realloc(newResults, (index+1)*sizeof(int));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for finalResults\n");
+		return NULL;
+	}
 	free(newResults);
 	return finalResults;
 }
 
 float *removeOutliersSDF(float results[], size_t size, int k){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	float mean = getMeanFloat(results, size);
 	float sd = getStandardDeviationF(results, size);
 	float lowerBound = mean-k*sd;
 	float upperBound = mean+k*sd;
 	float *newResults = malloc(size*sizeof(float));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i=0; i<size; i++){
 		if(results[i] >= lowerBound && results[i] <= upperBound){
@@ -418,16 +575,28 @@ float *removeOutliersSDF(float results[], size_t size, int k){
 		}
 	}
 	float *finalResults = realloc(newResults, (index+1)*sizeof(float));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for newResults\n");
+		return NULL;
+	}
 	free(newResults);
 	return finalResults;
 }
 
 double *removeOutliersSDD(double results[], size_t size, int k){
+	if(!results){
+		fprintf(stderr, "Results cannot be empty\n");
+		return NULL;
+	}
 	double mean = getMeanDouble(results, size);
 	double sd = getStandardDeviationD(results, size);
 	double lowerBound = mean-k*sd;
 	double upperBound = mean+k*sd;
 	double *newResults = malloc(size*sizeof(double));
+	if(!newResults){
+		fprintf(stderr, "Failed to allocate memory for newResults\n");
+		return NULL;
+	}
 	int index = 0;
 	for(size_t i=0; i<size; i++){
 		if(results[i] >= lowerBound && results[i] <= upperBound){
@@ -436,6 +605,10 @@ double *removeOutliersSDD(double results[], size_t size, int k){
 		}
 	}
 	double *finalResults = realloc(newResults, (index+1)*sizeof(double));
+	if(!finalResults){
+		fprintf(stderr, "Failed to reallocate memory for finalResults");
+		return NULL;
+	}
 	free(newResults);
 	return finalResults;
 }
